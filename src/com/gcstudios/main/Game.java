@@ -117,6 +117,7 @@ public class Game extends Canvas implements Runnable,KeyListener,MouseListener{
 			for(int i = 0; i < bullets.size(); i++) {
 				bullets.get(i).tick();
 			}
+			//teste
 			
 			if(enemies.size() == 0) {
 				//Avançar para o próximo level
