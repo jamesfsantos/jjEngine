@@ -18,10 +18,12 @@ public class Entity {
 	public static BufferedImage ENEMY_FEEDBACK = Game.spritesheet.getSprite(144, 16, 16, 16);
 	public static BufferedImage GUN_RIGHT = Game.spritesheet.getSprite(128,0,16,16);
 	public static BufferedImage GUN_LEFT = Game.spritesheet.getSprite(128+16,0,16,16);
-	
+	public static BufferedImage GUN_DAMAGE_RIGHT = Game.spritesheet.getSprite(0, 32, 16, 16);
+	public static BufferedImage GUN_DAMAGE_LEFT = Game.spritesheet.getSprite(16, 32, 16, 16);
 	
 	protected double x;
 	protected double y;
+	protected int z;
 	protected int width;
 	protected int height;
 	
@@ -83,7 +85,10 @@ public class Entity {
 			Rectangle e1Mask = new Rectangle(e1.getX() + e1.maskx,e1.getY() + e1.masky,e1.mwidth,e1.mheight);
 			Rectangle e2Mask = new Rectangle(e2.getX() + e2.maskx,e2.getY() + e2.masky,e2.mwidth,e2.mheight);
 		
-			return e1Mask.intersects(e2Mask);
+			if(e1Mask.intersects(e2Mask) && e1.z == e2.z) {
+				return true;
+			}
+			return false;
 	}
 	
 	public void render(Graphics g) {

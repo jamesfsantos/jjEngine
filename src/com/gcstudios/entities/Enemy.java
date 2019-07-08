@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import com.gcstudios.main.Game;
+import com.gcstudios.main.Sound;
 import com.gcstudios.world.Camera;
 import com.gcstudios.world.World;
 
@@ -40,20 +41,20 @@ public class Enemy extends Entity{
 		 */
 		if(this.isColiddingWithPlayer() == false) {
 			
-		if((int)x < Game.player.getX() && World.isFree((int)(x+speed), this.getY())
+		if((int)x < Game.player.getX() && World.isFree((int)(x+speed), this.getY(), z)
 				&& !isColidding((int)(x+speed), this.getY())) {
 			x+=speed;
 		}
-		else if ((int)x > Game.player.getX()&& World.isFree((int)(x-speed), this.getY())
+		else if ((int)x > Game.player.getX()&& World.isFree((int)(x-speed), this.getY(), z)
 				&& !isColidding((int)(x-speed), this.getY())){
 			x-=speed;
 		}
 		
-		if((int)y < Game.player.getY()&& World.isFree(this.getX(),(int)(y+speed))
+		if((int)y < Game.player.getY()&& World.isFree(this.getX(),(int)(y+speed), z)
 				&& !isColidding (this.getX(),(int)(y+speed))) {
 			y+=speed;
 		}
-		else if ((int)y > Game.player.getY()&& World.isFree(this.getX(),(int)(y-speed))
+		else if ((int)y > Game.player.getY()&& World.isFree(this.getX(),(int)(y-speed), z)
 				&& !isColidding (this.getX(),(int)(y-speed))) {
 			y-=speed;
 		}
@@ -61,6 +62,7 @@ public class Enemy extends Entity{
 		else {
 			//Estamos colidindo
 			if(Game.rand.nextInt(100) < 10) {
+				Sound.hurtEffect.play();
 				Game.player.life-=Game.rand.nextInt(3);
 				Game.player.isDamaged = true;
 		
@@ -106,7 +108,7 @@ public class Enemy extends Entity{
 					isDamaged = true;
 					life--;
 					Game.bullets.remove(i);
-					System.out.println("Colisao");
+					//System.out.println("Colisao");
 					return;
 				}
 			}
@@ -114,6 +116,7 @@ public class Enemy extends Entity{
 	}
 
 	public boolean isColiddingWithPlayer() {
+		
 		Rectangle enemyCurrent = new Rectangle(this.getX() + maskx ,this.getY()+ masky ,maskw,maskh);
 		Rectangle player = new Rectangle(Game.player.getX(),Game.player.getY(),16,16);
 		

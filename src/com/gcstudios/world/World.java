@@ -35,6 +35,7 @@ public class World {
 					tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR);
 					int pixelAtual = pixels[xx + (yy * map.getWidth())];
 					if (pixelAtual == 0xFF000000) {
+		
 						// Floor/
 						tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR);
 					} else if (pixelAtual == 0xFFFFFFFF) {
@@ -71,7 +72,7 @@ public class World {
 		}
 	}
 
-	public static boolean isFree(int xnext,int ynext) {
+	public static boolean isFree(int xnext,int ynext,int zplayer) {
 		int x1 = xnext / TILE_SIZE;
 		int y1 = ynext / TILE_SIZE;
 		
@@ -85,10 +86,16 @@ public class World {
 		int x4 = (xnext +TILE_SIZE-1) / TILE_SIZE;
 		int y4 = (ynext +TILE_SIZE-1) / TILE_SIZE;
 		
-		return !((tiles[x1 + (y1*World.WIDTH)] instanceof WallTile) ||
+		if (!((tiles[x1 + (y1*World.WIDTH)] instanceof WallTile) ||
 				(tiles[x2 + (y2*World.WIDTH)] instanceof WallTile) ||
 				(tiles[x3 + (y3*World.WIDTH)] instanceof WallTile) ||
-				(tiles[x4 + (y4*World.WIDTH)] instanceof WallTile));
+				(tiles[x4 + (y4*World.WIDTH)] instanceof WallTile))){
+					return true;
+		}
+		if(zplayer>0) {
+			return true;
+		}
+		return false;
 	}
 	
 	public static void restartGame(String level) {
